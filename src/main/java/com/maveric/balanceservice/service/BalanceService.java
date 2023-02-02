@@ -21,5 +21,5 @@ public interface BalanceService {
     public BalanceDto updateBalance(String accountId,String balanceId,BalanceDto balanceDto);
 
 
-
+    void deleteBalanceByAccountId(String accountId);
 }

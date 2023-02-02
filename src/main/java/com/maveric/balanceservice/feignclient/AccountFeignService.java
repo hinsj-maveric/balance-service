@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.security.auth.login.AccountNotFoundException;
 import javax.validation.Valid;
@@ -19,6 +19,7 @@ public interface AccountFeignService {
     ResponseEntity<List<Account>> getAccountsbyId(@PathVariable String customerId);
 
     @GetMapping("customers/{customerId}/accounts/{accountId}")
-    public AccountDto getAccount(@PathVariable("customerId") String customerId, @Valid
-    @PathVariable("accountId") String accountId) throws AccountNotFoundException ,CustomerIDNotFoundExistsException;
+    public AccountDto getAccount(@PathVariable("customerId") String customerId,
+                                 @Valid @PathVariable("accountId") String accountId,
+                                 @RequestHeader(value = "userid") String headerUserId) throws AccountNotFoundException ,CustomerIDNotFoundExistsException;
 }

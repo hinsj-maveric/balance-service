@@ -70,13 +70,11 @@ public  class BalanceServiceImpl implements BalanceService {
             Optional<Balance> balanceFromDb = repository.findById(balanceId);
             if (balanceFromDb.isPresent()) {
                 Balance newBal = repository.findById(balanceId).orElseThrow(() -> new BalanceNotFoundException("Balance not found"));
-                newBal.set_id(balanceDto.get_id());
                 newBal.setAccountId(balanceDto.getAccountId());
                 newBal.setCurrency(balanceDto.getCurrency());
                 newBal.setAmount(balanceDto.getAmount());
                 newBal.setUpdatedAt(balanceDto.getUpdatedAt());
                 newBal.setCreatedAt(balanceDto.getCreatedAt());
-
 
                 return mapper.entityToDto(repository.save(newBal));
             } else {
@@ -87,7 +85,6 @@ public  class BalanceServiceImpl implements BalanceService {
         }
 
     }
-
 
     @Override
     public BalanceDto createBalance(String accountId, BalanceDto balanceDto) {
@@ -124,6 +121,11 @@ public  class BalanceServiceImpl implements BalanceService {
     public Object deleteBalance(Object any, Object any1) {
         return deleteBalance("2", "2");
 
+    }
+
+    @Override
+    public void deleteBalanceByAccountId(String accountId) {
+        repository.deleteBalanceByAccountId(accountId);
     }
 
 }

@@ -96,22 +96,14 @@ public class BalanceController {
                                                     @Valid @RequestBody BalanceDto balanceDto,
                                                     @RequestHeader(value = "userid") String headerUserId) throws AccountNotFoundException {
 
-        if(headerUserId == null){
+        AccountDto accountDto = accountFeignService.getAccount(headerUserId, accountId, headerUserId);
+        if(accountDto != null) {
             log.info("API call to create a new Balance for given Account Id");
             BalanceDto balanceDtoResponse = balanceService.createBalance(accountId, balanceDto);
             log.info("New Balance Created successfully");
             return new ResponseEntity<>(balanceDtoResponse, HttpStatus.CREATED);
-        }
-        else {
-            AccountDto accountDto = accountFeignService.getAccount(headerUserId, accountId, headerUserId);
-            if(accountDto != null) {
-                log.info("API call to create a new Balance for given Account Id");
-                BalanceDto balanceDtoResponse = balanceService.createBalance(accountId, balanceDto);
-                log.info("New Balance Created successfully");
-                return new ResponseEntity<>(balanceDtoResponse, HttpStatus.CREATED);
-            } else {
-                throw new AccountNotFoundException("Account not found");
-            }
+        } else {
+            throw new AccountNotFoundException("Account not found");
         }
     }
 

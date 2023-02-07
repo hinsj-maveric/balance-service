@@ -18,8 +18,7 @@ public interface AccountFeignService {
     @GetMapping("/customers/{customerId}/customerAccounts")
     ResponseEntity<List<Account>> getAccountsbyId(@PathVariable String customerId);
 
-    @GetMapping("customers/{customerId}/accounts/{accountId}")
-    public AccountDto getAccount(@PathVariable("customerId") String customerId,
-                                 @Valid @PathVariable("accountId") String accountId,
-                                 @RequestHeader(value = "userid") String headerUserId) throws AccountNotFoundException ,CustomerIDNotFoundExistsException;
+    @GetMapping("customers/customerId/accounts/{accountId}")
+    public AccountDto getAccountByUserId(@PathVariable("accountId") String accountId,
+                                         @RequestHeader(value = "userid") String headerUserId);
 }

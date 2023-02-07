@@ -35,7 +35,7 @@ public class BalanceController {
                                                             @PathVariable("balanceId") String balanceId,
                                                             @RequestHeader(value = "userid") String headerUserId)
             throws BalanceIdNotFoundException, AccountIdMismatchException, AccountNotFoundException {
-        AccountDto accountDto = accountFeignService.getAccount(headerUserId, accountId, headerUserId);
+        AccountDto accountDto = accountFeignService.getAccountByUserId(accountId, headerUserId);
         if(accountDto != null){
             return new ResponseEntity<>(balanceService.getBalanceIdByAccountId(accountId, balanceId), HttpStatus.OK);
         }
@@ -45,14 +45,12 @@ public class BalanceController {
     }
 
     @GetMapping("accounts/{accountId}/balances")
-    public List<BalanceDto> getAllBalanceByAccountId(@RequestParam(value = "page", defaultValue = "0", required = false) int page,
-                                                     @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize,
-                                                     @PathVariable("accountId") @Valid String accountId,
-                                                     @RequestHeader(value = "userid") String headerUserId) throws BalanceIdNotFoundException, AccountNotFoundException {
-
-        AccountDto accountDto = accountFeignService.getAccount(headerUserId, accountId, headerUserId);
+    public ResponseEntity<BalanceDto> getAllBalanceByAccountId(@PathVariable("accountId") @Valid String accountId,
+                                               @RequestHeader(value = "userid") String headerUserId) throws BalanceIdNotFoundException, AccountNotFoundException {
+        AccountDto accountDto = accountFeignService.getAccountByUserId(accountId, headerUserId);
         if(accountDto != null){
-            return balanceService.getBalanceByAccountId(page, pageSize, accountId);
+            BalanceDto balanceDto = balanceService.getBalanceByAccountId(accountId);
+            return new ResponseEntity<>(balanceDto, HttpStatus.OK);
         }
         else{
             throw new CustomerIDNotFoundExistsException(MessageConstant.NOT_AUTHORIZED_USER);
@@ -66,7 +64,7 @@ public class BalanceController {
                                                            @PathVariable("balanceId") String balanceId,
                                                            @RequestHeader(value = "userid") String headerUserId)
             throws BalanceIdNotFoundException, AccountIdMismatchException, AccountNotFoundException {
-        AccountDto accountDto = accountFeignService.getAccount(headerUserId, accountId, headerUserId);
+        AccountDto accountDto = accountFeignService.getAccountByUserId(accountId, headerUserId);
         if(accountDto != null){
             balanceService.deleteBalanceByAccountId(accountId, balanceId);
             return new ResponseEntity<>("Balance deleted successfully", HttpStatus.OK);
@@ -81,7 +79,7 @@ public class BalanceController {
                                                     @PathVariable String accountId,
                                                     @PathVariable String balanceId,
                                                     @RequestHeader(value = "userid") String headerUserId) throws AccountNotFoundException {
-        AccountDto accountDto = accountFeignService.getAccount(headerUserId, accountId, headerUserId);
+        AccountDto accountDto = accountFeignService.getAccountByUserId(accountId, headerUserId);
         if(accountDto != null){
             BalanceDto balanceDetails = balanceService.updateBalance(accountId, balanceId, balanceDto);
             return ResponseEntity.status(HttpStatus.OK).body(balanceDetails);
@@ -96,21 +94,22 @@ public class BalanceController {
                                                     @Valid @RequestBody BalanceDto balanceDto,
                                                     @RequestHeader(value = "userid") String headerUserId) throws AccountNotFoundException {
 
-        AccountDto accountDto = accountFeignService.getAccount(headerUserId, accountId, headerUserId);
+        AccountDto accountDto = accountFeignService.getAccountByUserId(accountId, headerUserId);
         if(accountDto != null) {
             log.info("API call to create a new Balance for given Account Id");
             BalanceDto balanceDtoResponse = balanceService.createBalance(accountId, balanceDto);
             log.info("New Balance Created successfully");
             return new ResponseEntity<>(balanceDtoResponse, HttpStatus.CREATED);
-        } else {
-            throw new AccountNotFoundException("Account not found");
+        }
+        else {
+            throw new CustomerIDNotFoundExistsException(MessageConstant.NOT_AUTHORIZED_USER);
         }
     }
 
     @DeleteMapping("/accounts/{accountId}/balances")
     public ResponseEntity<String> deleteBalanceByAccountId(@PathVariable("accountId") String accountId,
                                                            @RequestHeader(value = "userid") String headerUserId) throws AccountNotFoundException {
-        AccountDto accountDto = accountFeignService.getAccount(headerUserId, accountId, headerUserId);
+        AccountDto accountDto = accountFeignService.getAccountByUserId(accountId, headerUserId);
         if(accountDto != null) {
             balanceService.deleteBalanceByAccountId(accountId);
             return new ResponseEntity<>("Transactions deleted successfully", HttpStatus.OK);

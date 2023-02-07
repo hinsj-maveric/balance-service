@@ -10,7 +10,9 @@ public interface BalanceService {
 
     BalanceDto getBalanceIdByAccountId(String accountId, String balanceId) throws BalanceIdNotFoundException, AccountIdMismatchException;
 
-    List<BalanceDto>getBalanceByAccountId(int page, int pageSize, String accountId)throws BalanceIdNotFoundException;
+    //List<BalanceDto>getBalanceByAccountId(int page, int pageSize, String accountId)throws BalanceIdNotFoundException;
+
+    BalanceDto getBalanceByAccountId(String accountId) throws BalanceIdNotFoundException;
 
     String deleteBalanceByAccountId(String accountId, String balanceId) throws AccountIdMismatchException;
 

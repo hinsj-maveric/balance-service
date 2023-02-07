@@ -35,16 +35,12 @@ public  class BalanceServiceImpl implements BalanceService {
     BalanceMapper mapper;
 
     @Override
-    public List<BalanceDto> getBalanceByAccountId(int page, int pageSize, String accountId) throws BalanceIdNotFoundException{
-        Pageable paging = PageRequest.of(page, pageSize);
-        Page<Balance> pageResult = repository.findByAccountId(paging, accountId);
-        if (pageResult.hasContent()) {
-            List<Balance> account = pageResult.getContent();
-            log.info("Retrieved list of accounts from DB");
-            return mapper.entityToDto(account);
+    public BalanceDto getBalanceByAccountId(String accountId) throws BalanceIdNotFoundException{
+        Balance balance = repository.findByAccountId(accountId);
+        if (balance != null) {
+            return mapper.entityToDto(balance);
         } else {
             throw new BalanceIdNotFoundException("Balance Not found");
-
         }
     }
 

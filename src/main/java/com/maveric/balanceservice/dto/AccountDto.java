@@ -15,8 +15,7 @@ public class AccountDto {
 
     private String customerId;
 
-    private Date createdAt=new Date();
+    private Date createdAt;
 
-
-    private Date updatedAt =new Date();
+    private Date updatedAt;
 }

@@ -13,12 +13,12 @@ import javax.security.auth.login.AccountNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(value = "feignAccount",url = "http://localhost:3010/api/v1/")
+@FeignClient(value = "account-service")
 public interface AccountFeignService {
-    @GetMapping("/customers/{customerId}/customerAccounts")
+    @GetMapping("api/v1/customers/{customerId}/customerAccounts")
     ResponseEntity<List<Account>> getAccountsbyId(@PathVariable String customerId);
 
-    @GetMapping("customers/customerId/accounts/{accountId}")
+    @GetMapping("api/v1/customers/customerId/accounts/{accountId}")
     public AccountDto getAccountByUserId(@PathVariable("accountId") String accountId,
                                          @RequestHeader(value = "userid") String headerUserId);
 }

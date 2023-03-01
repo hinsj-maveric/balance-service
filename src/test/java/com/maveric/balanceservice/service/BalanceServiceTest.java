@@ -77,7 +77,7 @@ public class BalanceServiceTest {
     void updateBalance() {
         when(repository.findById("2")).thenReturn(Optional.ofNullable(getBalance()));
         when(mapper.entityToDto(any(Balance.class))).thenReturn(getBalanceDto());
-when(repository.save(any())).thenReturn(getBalance());
+        when(repository.save(any())).thenReturn(getBalance());
         BalanceDto BalanceDto = balanceService.updateBalance("1234","2",getBalanceDto());
         assertSame(BalanceDto.getAccountId(),getBalanceDto().getAccountId());
     }
@@ -85,7 +85,7 @@ when(repository.save(any())).thenReturn(getBalance());
     void updateBalance_failure() {
         Throwable error = assertThrows(BalanceNotFoundException.class,()->balanceService.updateBalance("1234","2",getBalanceDto()));//NOSONAR
         assertEquals("BalanceId is not Exisists For 2",error.getMessage());    }
-//    @Test
+    //    @Test
 //    void getAccountByUserID() {
 //        Page<Balance> pagedResponse = new PageImpl(Arrays.asList());
 //        when(repository.findByAccountId(any(Pageable.class),eq("1234"))).thenReturn(pagedResponse);

@@ -75,7 +75,7 @@ class BalanceControllerTest {
     void shouldThrowErrorCreateBalance() throws Exception{
         when(accountFeignService.getAccountByUserId("1234", "1234")).thenReturn(getAccountDtoData().getBody());
         mvc.perform(post(API_V1_BALANCE).contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(getBalanceDtoData())).header("userid", "1234"))
+                        .content(objectMapper.writeValueAsString(getBalanceDtoData())).header("userid", "1234"))
                 .andExpect(status().isBadRequest()).andDo(print());
     }
 

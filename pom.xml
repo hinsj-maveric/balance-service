@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.maveric</groupId>
-	<artifactId>account-service</artifactId>
+	<artifactId>balance-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>account-service</name>
-	<description>Service for managing accounts</description>
+	<name>balance-service</name>
+	<description>Service for managing balance</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2021.0.5</spring-cloud.version>

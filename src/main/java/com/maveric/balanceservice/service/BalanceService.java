@@ -5,12 +5,9 @@ import com.maveric.balanceservice.dto.BalanceDto;
 import com.maveric.balanceservice.exception.AccountIdMismatchException;
 
 import com.maveric.balanceservice.exception.BalanceIdNotFoundException;
-import java.util.List;
 public interface BalanceService {
 
     BalanceDto getBalanceIdByAccountId(String accountId, String balanceId) throws BalanceIdNotFoundException, AccountIdMismatchException;
-
-    //List<BalanceDto>getBalanceByAccountId(int page, int pageSize, String accountId)throws BalanceIdNotFoundException;
 
     BalanceDto getBalanceByAccountId(String accountId) throws BalanceIdNotFoundException;
 

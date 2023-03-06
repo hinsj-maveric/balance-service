@@ -31,7 +31,7 @@ import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 //@RunWith(SpringRunner.class)
-public class BalanceServiceTest {
+class BalanceServiceTest {
     @InjectMocks
     private BalanceServiceImpl balanceService;
 
@@ -84,16 +84,9 @@ public class BalanceServiceTest {
     @Test
     void updateBalance_failure() {
         Throwable error = assertThrows(BalanceNotFoundException.class,()->balanceService.updateBalance("1234","2",getBalanceDto()));//NOSONAR
-        assertEquals("BalanceId is not Exisists For 2",error.getMessage());    }
-    //    @Test
-//    void getAccountByUserID() {
-//        Page<Balance> pagedResponse = new PageImpl(Arrays.asList());
-//        when(repository.findByAccountId(any(Pageable.class),eq("1234"))).thenReturn(pagedResponse);
-//
-//        List<BalanceDto> balance = balanceService.getBalanceByAccountId(1,1,"1234");
-//
-//        assertEquals(0, balance.size());
-//    }
+        assertEquals("BalanceId is not Exisists For 2",error.getMessage());
+    }
+
     @Test
     void getAccountDetailsById() throws BalanceIdNotFoundException {
         when(repository.findById(any(String.class))).thenReturn(Optional.empty());
@@ -101,6 +94,7 @@ public class BalanceServiceTest {
             balanceService.getBalanceIdByAccountId("1","1");
         });
     }
+
     public Balance getSampleBalance(){
         Balance balance = new Balance();
 
